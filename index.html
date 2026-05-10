@@ -1,0 +1,92 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>智绘全屋 | AI 全屋定制创作平台</title>
+    <link rel="stylesheet" href="styles.css">
+  </head>
+  <body>
+    <div class="top-ribbon">
+      <span>会员生成消耗更低，企业版 2000 元起充免会员费</span>
+      <a href="pricing.html">开通会员</a>
+    </div>
+    <header class="app-header">
+      <a class="logo-link" href="index.html">
+        <img src="image.png" alt="智绘全屋">
+      </a>
+      <nav class="top-nav">
+        <a class="active" href="index.html">首页</a>
+        <a href="floorplan.html">户型生图</a>
+        <a href="text-image.html">文本生图</a>
+        <a href="video.html">视频剪辑</a>
+        <a href="assets.html">资产库</a>
+      </nav>
+      <div class="header-actions">
+        <a class="points-chip" href="pricing.html">✦ <span data-points>1000</span></a>
+        <a class="black-button small" href="pricing.html">开会员</a>
+      </div>
+    </header>
+
+    <main class="home-shell">
+      <section class="home-hero">
+        <div class="brand-mark-mini">
+          <img src="image.png" alt="">
+        </div>
+        <h1>Hi，欢迎使用智绘全屋</h1>
+        <p>上传户型、输入想法、组合图片，快速生成全屋定制效果图和展示视频。</p>
+
+        <div class="hero-composer">
+          <textarea id="quickPrompt" rows="4" placeholder="描述你的想法，可用于文本生图。例如：现代奶油风主卧，到顶衣柜，隐藏灯带，真实室内摄影。"></textarea>
+          <div class="composer-bar">
+            <a class="circle-action" href="floorplan.html" title="上传户型">+</a>
+            <button class="mode-pill active" type="button" data-target="floorplan.html">户型生图</button>
+            <button class="mode-pill" type="button" data-target="text-image.html">文本生图</button>
+            <button class="mode-pill" type="button" data-target="video.html">视频剪辑</button>
+            <button class="send-button" id="quickStart" type="button">↑</button>
+          </div>
+        </div>
+
+        <div class="prompt-pills">
+          <button type="button">奶油风客餐厅</button>
+          <button type="button">极简主卧衣柜</button>
+          <button type="button">儿童房榻榻米</button>
+          <button type="button">意式衣帽间</button>
+        </div>
+      </section>
+
+      <section class="tool-tabs">
+        <div class="tab-title">
+          <a class="active" href="floorplan.html">常用功能</a>
+          <a href="pricing.html">会员充值</a>
+          <a href="assets.html">资产管理</a>
+        </div>
+        <div class="home-card-grid">
+          <a class="home-card card-floor" href="floorplan.html">
+            <span>户型生图</span>
+            <strong>上传平面图生成效果图</strong>
+            <small>风格、区域、数量可控</small>
+          </a>
+          <a class="home-card card-text" href="text-image.html">
+            <span>文本生图</span>
+            <strong>用提示词生成定制方案</strong>
+            <small>适合快速出客户沟通图</small>
+          </a>
+          <a class="home-card card-video" href="video.html">
+            <span>视频剪辑</span>
+            <strong>图片拼接字幕音乐成片</strong>
+            <small>适合门店案例和短视频</small>
+          </a>
+          <a class="home-card card-pay" href="pricing.html">
+            <span>充值会员</span>
+            <strong>支付宝 / 微信支付</strong>
+            <small>普通版、会员版、企业版</small>
+          </a>
+        </div>
+      </section>
+    </main>
+
+    <script src="config.js"></script>
+    <script src="app.js"></script>
+  </body>
+</html>

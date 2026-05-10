@@ -1,0 +1,24 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>资产库 | 智绘全屋</title>
+    <link rel="stylesheet" href="styles.css">
+  </head>
+  <body data-page="assets">
+    <div class="top-ribbon"><span>所有生成的图片和视频都会保存到资产库</span><a href="floorplan.html">新建创作</a></div>
+    <header class="app-header">
+      <a class="logo-link" href="index.html"><img src="image.png" alt="智绘全屋"></a>
+      <nav class="top-nav"><a href="index.html">首页</a><a href="floorplan.html">户型生图</a><a href="text-image.html">文本生图</a><a href="video.html">视频剪辑</a><a class="active" href="assets.html">资产库</a></nav>
+      <div class="header-actions"><a class="points-chip" href="pricing.html">✦ <span data-points>1000</span></a><a class="black-button small" href="pricing.html">充值</a></div>
+    </header>
+    <main class="assets-page">
+      <div class="result-head"><div><h1>我的资产库</h1><p>生成的图片和视频可在这里查看、管理和复用。</p></div><button class="plain-button" id="clearAssetsBtn" type="button">清空资产</button></div>
+      <div class="asset-grid" id="assetGrid"></div>
+    </main>
+    <div class="toast" id="toast"></div>
+    <script src="config.js"></script>
+    <script src="app.js"></script>
+  </body>
+</html>

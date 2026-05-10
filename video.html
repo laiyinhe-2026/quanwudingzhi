@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>视频剪辑 | 智绘全屋</title>
+    <link rel="stylesheet" href="styles.css">
+  </head>
+  <body data-page="video">
+    <div class="top-ribbon"><span>上传图片，拼接视频，添加字幕和背景音乐</span><a href="pricing.html">充值积分</a></div>
+    <header class="app-header">
+      <a class="logo-link" href="index.html"><img src="image.png" alt="智绘全屋"></a>
+      <nav class="top-nav"><a href="index.html">首页</a><a href="floorplan.html">户型生图</a><a href="text-image.html">文本生图</a><a class="active" href="video.html">视频剪辑</a><a href="assets.html">资产库</a></nav>
+      <div class="header-actions"><a class="points-chip" href="pricing.html">✦ <span data-points>1000</span></a><a class="black-button small" href="pricing.html">开会员</a></div>
+    </header>
+    <main class="workspace-page">
+      <aside class="side-panel"><a href="floorplan.html">户型生图</a><a href="text-image.html">文本生图</a><a class="new-task active" href="video.html">+ 新建视频剪辑</a><a href="assets.html">资产库</a></aside>
+      <section class="tool-workspace">
+        <form class="creator-box" id="videoForm">
+          <div class="page-heading"><span>Image to video</span><h1>视频剪辑</h1><p>支持上传图片，进行图片拼接、添加字幕和背景音乐，生成定制化视频。</p></div>
+          <label class="upload-drop"><input id="videoUpload" type="file" accept="image/*" multiple><strong>上传图片素材</strong><small>支持多张图片，自动生成分镜</small></label>
+          <div class="preview-grid" id="videoPreview"></div>
+          <div class="form-grid">
+            <label>单图时长<input id="secondsPerImage" type="number" min="2" max="10" value="4"></label>
+            <label>转场方式<select id="transitionType"><option>淡入淡出</option><option>横向推移</option><option>轻微推进</option></select></label>
+            <label>视频画幅<select id="videoRatio"><option>16:9</option><option>9:16</option><option>1:1</option></select></label>
+            <label>背景音乐<input id="musicUpload" type="file" accept="audio/*"></label>
+          </div>
+          <label>视频字幕<textarea id="subtitleText" rows="4" placeholder="例：全屋定制方案 · 空间更整洁，生活更从容"></textarea></label>
+          <button class="black-button wide" type="submit">生成视频</button>
+        </form>
+        <section class="result-box">
+          <div class="result-head"><h2>成片流程</h2></div>
+          <div class="steps"><span class="active">上传图片</span><span>镜头拼接</span><span>字幕音乐</span><span>生成视频</span></div>
+          <div class="result-gallery" id="videoResults"></div>
+          <div class="status-line" id="videoLog">上传图片后开始剪辑。</div>
+        </section>
+      </section>
+    </main>
+    <div class="toast" id="toast"></div>
+    <script src="config.js"></script>
+    <script src="app.js"></script>
+  </body>
+</html>
