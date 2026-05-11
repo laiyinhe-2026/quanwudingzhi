@@ -1,4 +1,5 @@
-// If the frontend is hosted on GitHub Pages and the API is hosted on Vercel,
-// set this to your Vercel project URL, for example:
-// window.ZHIHUI_API_BASE = "https://your-project.vercel.app";
-window.ZHIHUI_API_BASE = "https://quanwudingzhi.vercel.app";
+// Same-origin deployment is used on the Alibaba Cloud server.
+// Keep the Vercel fallback only for GitHub Pages previews.
+window.ZHIHUI_API_BASE = location.hostname.endsWith("github.io")
+  ? "https://quanwudingzhi.vercel.app"
+  : "";
