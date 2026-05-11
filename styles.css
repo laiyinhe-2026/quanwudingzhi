@@ -1311,6 +1311,12 @@ textarea::placeholder {
 }
 
 @media (max-width: 720px) {
+  html,
+  body {
+    max-width: 100%;
+    overflow-x: hidden;
+  }
+
   body {
     padding-bottom: 86px;
     background: #050608;
@@ -1320,9 +1326,39 @@ textarea::placeholder {
   .studio-page,
   .pricing-page,
   .assets-page {
+    width: 100%;
     padding-left: 18px;
     padding-right: 18px;
     padding-bottom: 64px;
+  }
+
+  .home-shell,
+  .studio-page,
+  .pricing-page,
+  .assets-page,
+  .app-header,
+  .hero-composer,
+  .module-grid,
+  .flow-grid,
+  .case-grid,
+  .price-grid,
+  .form-grid,
+  .capability-board,
+  .studio-layout,
+  .prompt-layout,
+  .asset-story,
+  .payment-card,
+  .creator-box,
+  .result-box,
+  .price-card,
+  .payment-card,
+  .asset-card,
+  .asset-toolbar,
+  .asset-filters,
+  .pay-methods,
+  .prompt-pills {
+    min-width: 0;
+    max-width: 100%;
   }
 
   .app-header {
@@ -1451,8 +1487,8 @@ textarea::placeholder {
   }
 
   .mode-dropdown {
-    left: -54px;
-    width: calc(100vw - 36px);
+    left: 0;
+    width: min(330px, calc(100vw - 36px));
     border-radius: 22px;
   }
 
@@ -1461,7 +1497,8 @@ textarea::placeholder {
   }
 
   .prompt-pills {
-    width: calc(100vw - 36px);
+    width: 100%;
+    max-width: 100%;
     justify-content: flex-start;
     flex-wrap: nowrap;
     gap: 10px;
@@ -1477,9 +1514,11 @@ textarea::placeholder {
 
   .prompt-pills button {
     flex: 0 0 auto;
+    max-width: 82vw;
     min-height: 38px;
     padding: 0 16px;
     font-size: 14px;
+    white-space: nowrap;
   }
 
   .home-section {
@@ -1660,6 +1699,8 @@ textarea::placeholder {
 
   .pay-methods,
   .asset-filters {
+    width: 100%;
+    max-width: 100%;
     overflow-x: auto;
     flex-wrap: nowrap;
     padding-bottom: 6px;
@@ -1673,6 +1714,11 @@ textarea::placeholder {
 
   .asset-filters button,
   .pay-method {
+    flex: 0 0 auto;
+    white-space: nowrap;
+  }
+
+  .asset-toolbar .ghost-button {
     flex: 0 0 auto;
   }
 
@@ -1700,7 +1746,8 @@ textarea::placeholder {
   }
 
   .profile-popover {
-    right: -8px;
+    right: 0;
+    width: min(260px, calc(100vw - 32px));
   }
 
   .mobile-tabbar {
