@@ -716,6 +716,27 @@ function bindShared() {
   });
 }
 
+function bindMobileNav() {
+  const page = document.body?.dataset?.page || "home";
+  const items = [
+    ["home", "index.html", "⌂", "首页"],
+    ["floorplan", "floorplan.html", "□", "户型"],
+    ["text-image", "text-image.html", "✎", "文本"],
+    ["video", "video.html", "▶", "视频"],
+    ["assets", "assets.html", "▦", "资产"]
+  ];
+  const nav = document.createElement("nav");
+  nav.className = "mobile-tabbar";
+  nav.setAttribute("aria-label", "移动端主导航");
+  nav.innerHTML = items.map(([key, href, icon, label]) => `
+    <a class="${page === key ? "active" : ""}" href="${href}">
+      <span>${icon}</span>
+      <b>${label}</b>
+    </a>
+  `).join("");
+  document.body.appendChild(nav);
+}
+
 function init() {
   updatePoints();
   bindShared();
@@ -726,6 +747,7 @@ function init() {
   bindPricing();
   bindAssets();
   bindMediaPreview();
+  bindMobileNav();
   renderAssets();
   updatePriceCards();
 }
