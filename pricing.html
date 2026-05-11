@@ -3,38 +3,35 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>充值会员 | 智绘全屋</title>
+    <title>会员充值 | 智绘全屋</title>
     <link rel="stylesheet" href="styles.css">
   </head>
   <body data-page="pricing">
-    <div class="top-ribbon"><span>选择合适的计划，助力业务提升</span><a href="index.html">返回首页</a></div>
+    <div class="ambient-bg" aria-hidden="true"></div>
     <header class="app-header">
       <a class="logo-link" href="index.html"><img src="image.png" alt="智绘全屋"></a>
-      <nav class="top-nav"><a href="index.html">首页</a><a href="floorplan.html">户型生图</a><a href="text-image.html">文本生图</a><a href="video.html">视频剪辑</a><a href="assets.html">资产库</a></nav>
-      <div class="header-actions"><a class="points-chip active" href="pricing.html">✦ <span data-points>1000</span></a><a class="black-button small" href="pricing.html">充值</a><div class="profile-menu"><button class="avatar-button" type="button">智</button><div class="profile-popover"><strong>智绘全屋账户</strong><p>会员积分 <b data-points>1000</b></p><p>奖励积分 <b data-reward-points>88</b></p><a href="pricing.html">查看用量</a><a href="pricing.html">管理账户</a></div></div></div>
+      <nav class="top-nav"><a href="index.html">首页</a><a href="floorplan.html">户型生图</a><a href="text-image.html">文本生图</a><a href="video.html">视频剪辑</a><a href="assets.html">资产库</a><a class="active" href="pricing.html">会员</a></nav>
+      <div class="header-actions"><a class="points-chip active" href="pricing.html">✦ <span data-points>1000</span></a><a class="white-button small" href="pricing.html">充值</a><div class="profile-menu"><button class="avatar-button" type="button">智</button><div class="profile-popover"><strong>智绘全屋账户</strong><p>会员积分 <b data-points>1000</b></p><p>奖励积分 <b data-reward-points>88</b></p><a href="pricing.html">查看用量</a><a href="pricing.html">管理账户</a></div></div></div>
     </header>
     <main class="pricing-page">
       <section class="pricing-hero">
-        <h1>选择合适的计划，助力业务提升</h1>
-        <p>普通版永久免费，标准会员赠送积分并降低生成消耗，企业版支持团队协作、提示词服务和积分优惠。</p>
+        <p class="eyebrow">Membership</p>
+        <h1>选择适合你的 AI 创作计划</h1>
+        <p>普通版适合试用，会员版适合高频生成，企业版适合门店和团队批量创作。</p>
       </section>
       <section class="price-grid">
-        <article class="price-card" data-plan="normal"><h3>普通版</h3><strong>0 元</strong><p>永久免费</p><ul><li>图片和视频按普通消耗扣点</li><li>支持资产库保存</li><li>适合低频试单</li></ul><button class="plain-button" type="button">当前计划</button></article>
-        <article class="price-card" data-plan="member" data-cycle="monthly" data-points="3900"><h3>标准会员 · 月度</h3><strong>39 元/月</strong><p>赠送 3900 点积分</p><ul><li>图片生成低消耗</li><li>视频剪辑低消耗</li><li>适合个人设计师</li></ul><button class="black-button" type="button">开通月度</button></article>
-        <article class="price-card" data-plan="member" data-cycle="quarterly" data-points="9000"><h3>标准会员 · 季度</h3><strong>79 元/季</strong><p>赠送 9000 点积分</p><ul><li>适合门店活动周期</li><li>批量生成素材</li><li>资产持续保存</li></ul><button class="black-button" type="button">开通季度</button></article>
-        <article class="price-card featured" data-plan="member" data-cycle="yearly" data-points="30000"><h3>标准会员 · 年度</h3><strong>249 元/年</strong><p>赠送 30000 点积分</p><ul><li>年度综合成本更低</li><li>适合团队主账号</li><li>优先体验新能力</li></ul><button class="black-button" type="button">开通年度</button></article>
+        <article class="price-card" data-plan="normal"><h3>普通版</h3><strong>0 元</strong><p>永久免费</p><ul><li>图片和视频按普通消耗扣点</li><li>支持资产库保存</li><li>适合低频试单</li></ul><button class="ghost-button" type="button">当前计划</button></article>
+        <article class="price-card" data-plan="member" data-cycle="monthly" data-points="3900"><h3>月度会员</h3><strong>39 元/月</strong><p>赠送 3900 点积分</p><ul><li>图片生成低消耗</li><li>视频剪辑低消耗</li><li>适合个人设计师</li></ul><button class="white-button" type="button">开通月度</button></article>
+        <article class="price-card" data-plan="member" data-cycle="quarterly" data-points="9000"><h3>季度会员</h3><strong>79 元/季</strong><p>赠送 9000 点积分</p><ul><li>适合门店活动周期</li><li>批量生成素材</li><li>资产持续保存</li></ul><button class="white-button" type="button">开通季度</button></article>
+        <article class="price-card featured" data-plan="member" data-cycle="yearly" data-points="30000"><h3>年度会员</h3><strong>249 元/年</strong><p>赠送 30000 点积分</p><ul><li>年度综合成本更低</li><li>适合团队主账号</li><li>优先体验新能力</li></ul><button class="white-button" type="button">开通年度</button></article>
+        <article class="price-card enterprise-price" id="enterprise"><span class="recommend">推荐门店 / 团队使用</span><h3>企业版</h3><strong>定制方案</strong><p>适合全屋定制门店、设计团队和家居品牌使用。</p><ul><li>团队成员共享资产库</li><li>专属提示词服务</li><li>企业积分优惠</li></ul><button class="white-button" id="contactSalesBtn" type="button">咨询企业版</button></article>
       </section>
       <section class="payment-card">
-        <div><h2>支付充值</h2><p>集成支付宝和微信支付渠道。当前为前端演示，商用需后端创建订单和回调验签。</p></div>
+        <div><h2>支付充值</h2><p>选择微信支付或支付宝充值积分，到账后可用于图片生成和视频剪辑。</p></div>
         <label>充值金额<input id="rechargeAmount" type="number" min="1" value="100"></label>
         <div class="pay-methods"><button class="pay-method active" type="button" data-pay="wechat">微信支付</button><button class="pay-method" type="button" data-pay="alipay">支付宝</button></div>
-        <button class="black-button" id="rechargeBtn" type="button">确认支付</button>
+        <button class="white-button" id="rechargeBtn" type="button">确认支付</button>
         <div class="pay-result" id="payResult">预计到账 10000 点积分</div>
-      </section>
-      <section class="enterprise-card">
-        <div><h2>企业版</h2><p>适合工厂、连锁门店和设计服务商，包含团队成员共享资产库、提示词服务、积分优惠。</p></div>
-        <ul class="enterprise-benefits"><li>团队成员共享资产库</li><li>专属提示词优化服务</li><li>企业积分优惠</li></ul>
-        <button class="black-button" id="contactSalesBtn" type="button">联系销售</button>
       </section>
     </main>
     <div class="sales-modal" id="salesModal" aria-hidden="true">

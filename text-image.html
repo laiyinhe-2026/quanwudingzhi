@@ -7,18 +7,27 @@
     <link rel="stylesheet" href="styles.css">
   </head>
   <body data-page="text-image">
-    <div class="top-ribbon"><span>输入风格、区域和数量，生成高质量全屋定制效果图</span><a href="pricing.html">充值积分</a></div>
+    <div class="ambient-bg" aria-hidden="true"></div>
     <header class="app-header">
       <a class="logo-link" href="index.html"><img src="image.png" alt="智绘全屋"></a>
-      <nav class="top-nav"><a href="index.html">首页</a><a href="floorplan.html">户型生图</a><a class="active" href="text-image.html">文本生图</a><a href="video.html">视频剪辑</a><a href="assets.html">资产库</a></nav>
-      <div class="header-actions"><a class="points-chip" href="pricing.html">✦ <span data-points>1000</span></a><a class="black-button small" href="pricing.html">开会员</a><div class="profile-menu"><button class="avatar-button" type="button">智</button><div class="profile-popover"><strong>智绘全屋账户</strong><p>会员积分 <b data-points>1000</b></p><p>奖励积分 <b data-reward-points>88</b></p><a href="pricing.html">查看用量</a><a href="pricing.html">管理账户</a></div></div></div>
+      <nav class="top-nav"><a href="index.html">首页</a><a href="floorplan.html">户型生图</a><a class="active" href="text-image.html">文本生图</a><a href="video.html">视频剪辑</a><a href="assets.html">资产库</a><a href="pricing.html">会员</a></nav>
+      <div class="header-actions"><a class="points-chip" href="pricing.html">✦ <span data-points>1000</span></a><a class="white-button small" href="pricing.html">开会员</a><div class="profile-menu"><button class="avatar-button" type="button">智</button><div class="profile-popover"><strong>智绘全屋账户</strong><p>会员积分 <b data-points>1000</b></p><p>奖励积分 <b data-reward-points>88</b></p><a href="pricing.html">查看用量</a><a href="pricing.html">管理账户</a></div></div></div>
     </header>
-    <main class="workspace-page">
-      <aside class="side-panel"><a href="floorplan.html">户型生图</a><a class="new-task active" href="text-image.html">+ 新建文本生图</a><a href="video.html">视频剪辑</a><a href="assets.html">资产库</a></aside>
-      <section class="tool-workspace">
-        <form class="creator-box" id="textImageForm">
-          <div class="page-heading"><span>Prompt to render</span><h1>文本生成效果图</h1><p>输入风格、区域、数量和设计提示词，生成高质量全屋定制效果图。</p></div>
-          <label>需求提示词<textarea id="textPrompt" rows="7" required>现代奶油风主卧，全屋定制衣柜到顶，隐藏灯带，梳妆台与床头柜一体化，真实室内摄影，柔和自然光</textarea></label>
+    <main class="studio-page prompt-studio">
+      <div class="page-heading studio-title">
+        <p class="eyebrow">Prompt Studio</p>
+        <h1>文本生成效果图</h1>
+        <p>把客户需求转成高质量全屋定制效果图，适合快速试风格、出沟通图。</p>
+      </div>
+      <section class="prompt-layout">
+        <form class="creator-box prompt-box" id="textImageForm">
+          <label class="prompt-input-label">需求提示词<textarea id="textPrompt" rows="8" required placeholder="描述空间、风格、柜体、材质、灯光和镜头感">现代奶油风主卧，全屋定制衣柜到顶，隐藏灯带，梳妆台与床头柜一体化，真实室内摄影，柔和自然光</textarea></label>
+          <div class="prompt-pills prompt-shortcuts">
+            <button type="button">奶油风主卧，到顶衣柜，隐藏灯带</button>
+            <button type="button">原木风客餐厅，通顶收纳柜，柔和自然光</button>
+            <button type="button">儿童房榻榻米，书桌衣柜一体</button>
+            <button type="button">意式轻奢衣帽间，玻璃柜门，线性灯</button>
+          </div>
           <div class="form-grid">
             <label>风格选择<select id="textStyle"><option>现代奶油风</option><option>极简原木风</option><option>意式轻奢</option><option>中古胡桃木</option><option value="other">其他</option></select></label>
             <label class="other-field" id="textStyleOtherWrap">其他风格<input id="textStyleOther" placeholder="填写其他风格"></label>
@@ -27,10 +36,11 @@
             <label>生成数量<input id="textCount" type="number" min="1" max="4" value="1"></label>
             <label>画面比例<select id="textSize"><option>16:9</option><option>1:1</option><option>4:3</option><option>9:16</option></select></label>
           </div>
-          <button class="black-button wide" type="submit">生成效果图</button>
+          <button class="white-button wide generate-button" type="submit">生成效果图</button>
         </form>
-        <section class="result-box">
-          <div class="result-head"><h2>生成结果</h2><button class="plain-button" id="textToVideoBtn" type="button">继续转视频</button></div>
+        <section class="result-box preview-panel">
+          <div class="result-head"><div><h2>生成结果</h2><p>AI 会在这里输出风格化空间图。</p></div><button class="ghost-button small" id="textToVideoBtn" type="button">继续转视频</button></div>
+          <div class="empty-preview"><span></span><strong>等待提示词</strong><p>输入客户需求后，生成结果可放大预览，也可以一键保存到资产库。</p></div>
           <div class="result-gallery" id="textResults"></div>
           <div class="status-line" id="textLog">输入提示词后开始生成。</div>
         </section>

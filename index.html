@@ -7,24 +7,23 @@
     <link rel="stylesheet" href="styles.css">
   </head>
   <body>
-    <div class="top-ribbon">
-      <span>会员生成消耗更低，企业版支持团队协作与专属服务</span>
-      <a href="pricing.html">开通会员</a>
-    </div>
+    <div class="ambient-bg" aria-hidden="true"></div>
     <header class="app-header">
       <a class="logo-link" href="index.html">
         <img src="image.png" alt="智绘全屋">
       </a>
-      <nav class="top-nav">
+      <nav class="top-nav" aria-label="主导航">
         <a class="active" href="index.html">首页</a>
         <a href="floorplan.html">户型生图</a>
         <a href="text-image.html">文本生图</a>
         <a href="video.html">视频剪辑</a>
         <a href="assets.html">资产库</a>
+        <a href="pricing.html">会员</a>
       </nav>
       <div class="header-actions">
         <a class="points-chip" href="pricing.html">✦ <span data-points>1000</span></a>
-        <a class="black-button small" href="pricing.html">开会员</a>
+        <a class="white-button small" href="pricing.html">开会员</a>
+        <a class="ghost-button small desktop-only" href="pricing.html#enterprise">企业版</a>
         <div class="profile-menu">
           <button class="avatar-button" type="button" aria-label="个人资料">智</button>
           <div class="profile-popover">
@@ -40,25 +39,28 @@
 
     <main class="home-shell">
       <section class="home-hero">
-        <div class="brand-mark-mini">
-          <img src="image.png" alt="">
+        <p class="eyebrow">AI Interior Creation Agent</p>
+        <h1><span>智绘全屋</span>你的 AI 全屋定制创作 Agent</h1>
+        <p class="hero-copy">上传户型、输入想法、组合素材，快速生成全屋定制效果图与展示视频。</p>
+        <div class="hero-actions">
+          <a class="white-button" href="floorplan.html">开始创作</a>
+          <a class="ghost-button" href="floorplan.html">上传户型生成效果图</a>
+          <a class="ghost-button" href="#cases">查看案例</a>
         </div>
-        <h1>Hi，欢迎使用智绘全屋</h1>
-        <p>上传户型、输入想法、组合图片，快速生成全屋定制效果图和展示视频。</p>
 
         <div class="hero-composer">
-          <textarea id="quickPrompt" rows="4" placeholder="描述你的想法，可用于文本生图。例如：现代奶油风主卧，到顶衣柜，隐藏灯带，真实室内摄影。"></textarea>
+          <textarea id="quickPrompt" rows="4" placeholder="描述你想生成的空间，例如：现代奶油风主卧，衣柜到顶，隐藏灯带……"></textarea>
           <div class="composer-bar">
             <a class="circle-action" href="floorplan.html" title="上传户型">+</a>
             <div class="mode-select">
               <button class="mode-trigger" type="button" id="modeTrigger">户型生图 <span>⌄</span></button>
               <div class="mode-dropdown" id="modeDropdown">
                 <button class="active" type="button" data-target="floorplan.html">户型生图<span>上传平面图生成效果图</span></button>
-                <button type="button" data-target="text-image.html">文本生图<span>输入提示词生成方案</span></button>
-                <button type="button" data-target="video.html">视频剪辑<span>图片拼接字幕音乐</span></button>
+                <button type="button" data-target="text-image.html">文本生图<span>输入设计想法生成空间图</span></button>
+                <button type="button" data-target="video.html">视频剪辑<span>图片拼接字幕音乐成片</span></button>
               </div>
             </div>
-            <button class="send-button" id="quickStart" type="button">↑</button>
+            <button class="send-button" id="quickStart" type="button" aria-label="开始生成">↑</button>
           </div>
         </div>
 
@@ -67,42 +69,106 @@
           <button type="button">极简主卧衣柜</button>
           <button type="button">儿童房榻榻米</button>
           <button type="button">意式衣帽间</button>
+          <button type="button">胡桃木书房</button>
+          <button type="button">小户型收纳</button>
         </div>
       </section>
 
-      <section class="tool-tabs">
-        <div class="tab-title">
-          <a class="active" href="floorplan.html">常用功能</a>
-          <a href="pricing.html">会员充值</a>
-          <a href="assets.html">资产管理</a>
+      <section class="home-section">
+        <div class="section-heading center">
+          <p class="eyebrow">Core modules</p>
+          <h2>三种方式，完成你的定制方案创作</h2>
         </div>
-        <div class="home-card-grid">
-          <a class="home-card card-floor" href="floorplan.html">
-            <span>户型生图</span>
-            <strong>上传平面图生成效果图</strong>
-            <small>风格、区域、数量可控</small>
+        <div class="module-grid">
+          <a class="module-card module-floor" href="floorplan.html">
+            <div class="module-icon">⌂</div>
+            <h3>户型生图</h3>
+            <p>上传平面图，自动生成全屋定制效果图。适合快速给客户展示空间方案。</p>
+            <div class="tag-row"><span>户型识别</span><span>风格选择</span><span>区域控制</span><span>批量出图</span></div>
+            <div class="module-preview floor-preview"></div>
+            <strong>开始户型生图</strong>
           </a>
-          <a class="home-card card-text" href="text-image.html">
-            <span>文本生图</span>
-            <strong>用提示词生成定制方案</strong>
-            <small>适合快速出客户沟通图</small>
+          <a class="module-card module-text" href="text-image.html">
+            <div class="module-icon">✦</div>
+            <h3>文本生图</h3>
+            <p>输入设计想法，快速生成风格化空间图。适合销售沟通、方案试稿和案例展示。</p>
+            <div class="tag-row"><span>提示词生成</span><span>风格方案</span><span>空间表达</span><span>快速试稿</span></div>
+            <div class="module-preview text-preview"></div>
+            <strong>开始文本生图</strong>
           </a>
-          <a class="home-card card-video" href="video.html">
-            <span>视频剪辑</span>
-            <strong>图片拼接字幕音乐成片</strong>
-            <small>适合门店案例和短视频</small>
-          </a>
-          <a class="home-card card-pay" href="pricing.html">
-            <span>充值会员</span>
-            <strong>支付宝 / 微信支付</strong>
-            <small>普通版、会员版、企业版</small>
+          <a class="module-card module-video" href="video.html">
+            <div class="module-icon">▶</div>
+            <h3>视频剪辑</h3>
+            <p>把多张效果图拼接成展示视频。适合门店案例、朋友圈和短视频获客。</p>
+            <div class="tag-row"><span>图片成片</span><span>字幕音乐</span><span>转场节奏</span><span>短视频展示</span></div>
+            <div class="module-preview video-preview"></div>
+            <strong>开始视频剪辑</strong>
           </a>
         </div>
-        <div class="asset-strip-head">
-          <h2>个人资产库</h2>
-          <a href="assets.html">查看全部</a>
+      </section>
+
+      <section class="home-section">
+        <div class="section-heading center">
+          <p class="eyebrow">Workflow</p>
+          <h2>从户型到成片，只需要 3 步</h2>
         </div>
-        <div class="home-asset-grid" id="homeAssetGrid"></div>
+        <div class="flow-grid">
+          <article><span>01</span><h3>上传户型 / 输入想法</h3><p>支持平面图、参考图、空间描述。</p></article>
+          <article><span>02</span><h3>选择风格 / 区域 / 比例</h3><p>奶油风、原木风、轻奢风、胡桃木等。</p></article>
+          <article><span>03</span><h3>生成效果图 / 拼接视频</h3><p>沉淀到资产库，可复用、可转视频。</p></article>
+        </div>
+      </section>
+
+      <section class="home-section">
+        <div class="section-heading center">
+          <p class="eyebrow">Creative system</p>
+          <h2>不只是生图，而是全屋定制创作工作流</h2>
+        </div>
+        <div class="capability-board">
+          <div><h3>模型能力</h3><span>户型理解</span><span>空间渲染</span><span>图片转视频</span><span>提示词优化</span></div>
+          <div><h3>风格能力</h3><span>现代奶油风</span><span>极简原木风</span><span>意式轻奢</span><span>中古胡桃木</span><span>儿童房定制</span><span>衣帽间方案</span></div>
+          <div><h3>素材能力</h3><span>户型图</span><span>效果图</span><span>门店案例</span><span>板材素材</span><span>品牌图册</span><span>视频资产</span></div>
+        </div>
+      </section>
+
+      <section class="home-section" id="cases">
+        <div class="section-heading row">
+          <div>
+            <p class="eyebrow">Cases</p>
+            <h2>让客户更快看懂你的定制方案</h2>
+          </div>
+          <a class="ghost-button small" href="text-image.html">复用风格</a>
+        </div>
+        <div class="case-grid">
+          <article><div class="case-art art-cream"></div><span>户型生图</span><h3>奶油风客餐厅</h3><a href="text-image.html">复用这个风格</a></article>
+          <article><div class="case-art art-minimal"></div><span>文本生图</span><h3>极简主卧衣柜</h3><a href="text-image.html">复用这个风格</a></article>
+          <article><div class="case-art art-kids"></div><span>户型生图</span><h3>儿童房榻榻米</h3><a href="text-image.html">复用这个风格</a></article>
+          <article><div class="case-art art-luxury"></div><span>文本生图</span><h3>意式衣帽间</h3><a href="text-image.html">复用这个风格</a></article>
+        </div>
+      </section>
+
+      <section class="home-section asset-story">
+        <div class="asset-copy">
+          <p class="eyebrow">Asset library</p>
+          <h2>生成过的图片和视频，都会成为你的门店素材库</h2>
+          <p>生成结果可一键保存，支持二次复用、继续转视频，适合门店案例沉淀和销售快速展示。</p>
+          <div class="hero-actions"><a class="white-button" href="assets.html">进入资产库</a><a class="ghost-button" href="video.html">转为视频</a></div>
+        </div>
+        <div class="asset-preview-card">
+          <div class="asset-mini-grid" id="homeAssetGrid"></div>
+          <div class="timeline-preview"><span></span><span></span><span></span></div>
+          <div class="asset-actions"><button>继续创作</button><button>转为视频</button><button>下载素材</button></div>
+        </div>
+      </section>
+
+      <section class="home-section enterprise-cta">
+        <div>
+          <p class="eyebrow">Enterprise</p>
+          <h2>给全屋定制门店和团队使用的 AI 创作系统</h2>
+          <p>统一门店出图风格，降低设计沟通成本，提升销售转化效率，沉淀品牌案例资产。</p>
+        </div>
+        <div class="enterprise-points"><span>统一门店出图风格</span><span>降低沟通成本</span><span>企业充值与低消耗生成</span></div>
+        <div class="hero-actions"><a class="white-button" href="pricing.html#enterprise">咨询企业版</a><a class="ghost-button" href="pricing.html">查看会员方案</a></div>
       </section>
     </main>
 

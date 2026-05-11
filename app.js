@@ -52,7 +52,7 @@ function uid() {
 }
 
 function escapeHtml(value) {
-  return String(value)
+  return String(value ?? "")
     .replaceAll("&", "&amp;")
     .replaceAll("<", "&lt;")
     .replaceAll(">", "&gt;")
@@ -77,23 +77,44 @@ function renderPreviewCard(url, label) {
   `;
 }
 
-function renderResultCard(url, title, prompt) {
+function renderResultCard(url, title, prompt = "", type = "image") {
+  const safeUrl = escapeHtml(url);
+  const safeTitle = escapeHtml(title);
+  const safePrompt = escapeHtml(prompt);
+  const typeText = type === "video" ? "视频" : "图片";
   return `
-    <article class="result-card">
-      <img src="${escapeHtml(url)}" alt="${escapeHtml(title)}">
-      <span>${escapeHtml(title)} · ${escapeHtml(prompt.slice(0, 28))}</span>
+    <article class="result-card is-previewable" data-preview-url="${safeUrl}" data-preview-type="${type}" data-preview-title="${safeTitle}" data-preview-prompt="${safePrompt}">
+      <div class="result-media">
+        <img src="${safeUrl}" alt="${safeTitle}">
+        ${type === "video" ? `<b class="media-badge">视频预览</b>` : ""}
+      </div>
+      <span>${safeTitle} · ${escapeHtml(String(prompt).slice(0, 28))}</span>
+      <div class="result-actions">
+        <button type="button" data-result-save data-url="${safeUrl}" data-type="${type}" data-title="${safeTitle}" data-prompt="${safePrompt}">保存到资产库</button>
+        <small>点击${typeText}放大查看</small>
+      </div>
     </article>
   `;
+}
+
+function setButtonLoading(button, loading, text = "AI 正在生成...") {
+  if (!button) return;
+  if (loading) {
+    button.dataset.originalText = button.textContent;
+    button.textContent = text;
+    button.classList.add("is-loading");
+    button.disabled = true;
+  } else {
+    button.textContent = button.dataset.originalText || button.textContent;
+    button.classList.remove("is-loading");
+    button.disabled = false;
+  }
 }
 
 function renderGeneratingCard(label) {
   return `
     <article class="generating-card" aria-live="polite">
-      <div class="render-ghost">
-        <span></span>
-        <span></span>
-        <span></span>
-      </div>
+      <div class="render-ghost"><span></span><span></span><span></span></div>
       <strong>${escapeHtml(label)}正在生成</strong>
       <p>正在理解空间结构、材质和光影，请稍候。</p>
     </article>
@@ -127,11 +148,10 @@ function charge(cost) {
 }
 
 async function callImageApi(payload) {
+  if (!API_BASE) throw new Error("缺少 Vercel API 地址");
   const response = await fetch(`${API_BASE}/api/generate-image`, {
     method: "POST",
-    headers: {
-      "Content-Type": "application/json"
-    },
+    headers: { "Content-Type": "application/json" },
     body: JSON.stringify(payload)
   });
   if (!response.ok) throw new Error(`${response.status} ${response.statusText}`);
@@ -139,12 +159,10 @@ async function callImageApi(payload) {
 }
 
 async function uploadImage(file) {
+  if (!API_BASE) throw new Error("缺少 Vercel API 地址");
   const formData = new FormData();
   formData.append("file", file);
-  const response = await fetch(`${API_BASE}/api/upload`, {
-    method: "POST",
-    body: formData
-  });
+  const response = await fetch(`${API_BASE}/api/upload`, { method: "POST", body: formData });
   if (!response.ok) throw new Error(`${response.status} ${response.statusText}`);
   return response.json();
 }
@@ -171,6 +189,7 @@ function extractImageUrls(result) {
     ...(Array.isArray(data.urls) ? data.urls : []),
     ...(Array.isArray(data.images) ? data.images : [])
   ].filter(Boolean);
+
   return candidates
     .flatMap((item) => Array.isArray(item) ? item : [item])
     .filter((item) => typeof item === "string" && /^https?:\/\//.test(item));
@@ -213,7 +232,7 @@ function makeMockImage(prompt, label) {
       <rect x="218" y="520" width="680" height="86" rx="16" fill="#c9b7a3"/>
       <rect x="260" y="456" width="410" height="74" rx="16" fill="#fff7ec"/>
       <circle cx="1080" cy="296" r="72" fill="${palette[1]}"/>
-      <text x="140" y="790" fill="#101426" font-size="42" font-family="Microsoft YaHei, Arial" font-weight="800">${label}</text>
+      <text x="140" y="790" fill="#101426" font-size="42" font-family="Microsoft YaHei, Arial" font-weight="800">${escapeHtml(label)}</text>
     </svg>
   `;
   return `data:image/svg+xml;charset=utf-8,${encodeURIComponent(svg)}`;
@@ -223,28 +242,23 @@ function hashCode(value) {
   return String(value).split("").reduce((hash, char) => ((hash << 5) - hash + char.charCodeAt(0)) | 0, 0);
 }
 
-async function submitImageTask({ prompt, size, urls, count, targetId, logId, label }) {
+async function submitImageTask({ prompt, size, urls, count, targetId, logId, label, source }) {
   const cost = count * (state.tier === "enterprise" ? 6 : state.tier === "member" ? 10 : 16);
   if (!charge(cost)) return;
   const log = $(logId);
   const target = $(targetId);
-  if (target) {
-    target.innerHTML = Array.from({ length: count }, () => renderGeneratingCard(label)).join("");
-  }
+  if (target) target.innerHTML = Array.from({ length: count }, () => renderGeneratingCard(label)).join("");
   if (log) log.textContent = "正在生成效果图，请稍候。";
 
   let images = [];
   try {
     const result = await callImageApi({ prompt, size, urls });
     const taskId = extractTaskId(result);
-    if (log) log.textContent = "正在生成效果图，请稍候。";
     images = extractImageUrls(result);
-    if (!images.length && taskId) {
-      images = await waitForImageUrls(taskId, log);
-    }
-    if (log) log.textContent = images.length ? "生成完成，结果已保存到资产库。" : "任务已提交，但暂未返回图片地址。稍后可刷新资产库查看。";
+    if (!images.length && taskId) images = await waitForImageUrls(taskId, log);
+    if (log) log.textContent = images.length ? "生成完成，可点击图片放大查看，也可以保存到资产库。" : "任务已提交，但暂未返回图片地址。";
   } catch (error) {
-    if (log) log.textContent = `生成失败：${error.message}。请确认 Vercel 环境变量和阿里 OSS 配置。`;
+    if (log) log.textContent = `生成失败：${error.message}。已退回本次消耗积分。`;
     state.points += cost;
     saveState();
     updatePoints();
@@ -256,15 +270,16 @@ async function submitImageTask({ prompt, size, urls, count, targetId, logId, lab
     toast("任务已提交，暂未返回图片");
     return;
   }
+
   images = images.slice(0, count);
-  if (target) target.innerHTML = images.map((url, index) => renderResultCard(url, `${label} ${index + 1}`, prompt)).join("");
   state.pendingVideoImages = images;
-  images.forEach((url, index) => addAsset({
-    type: "image",
-    title: `${label} ${index + 1}`,
-    prompt,
-    url
-  }, false));
+  if (target) {
+    target.innerHTML = images.map((url, index) => {
+      const title = `${label} ${index + 1}`;
+      const promptWithSource = source ? `${prompt}｜${source}` : prompt;
+      return renderResultCard(url, title, promptWithSource, "image");
+    }).join("");
+  }
   saveState();
   updatePoints();
   toast(`已消耗 ${cost} 点积分`);
@@ -276,26 +291,150 @@ function addAsset(asset, persist = true) {
   renderAssets();
 }
 
+function assetExists(url, type) {
+  return state.assets.some((asset) => asset.url === url && asset.type === type);
+}
+
+function saveGeneratedAsset({ url, type, title, prompt }) {
+  if (!url) return;
+  if (assetExists(url, type)) {
+    toast("这个素材已经在资产库里");
+    return;
+  }
+  addAsset({
+    type,
+    title: title || (type === "video" ? "全屋定制视频" : "全屋定制效果图"),
+    prompt: type === "image" ? prompt : "",
+    description: type === "video" ? prompt : "",
+    url
+  });
+  toast("已保存到资产库");
+}
+
+function ensurePreviewModal() {
+  let modal = $("#mediaPreviewModal");
+  if (modal) return modal;
+  modal = document.createElement("div");
+  modal.id = "mediaPreviewModal";
+  modal.className = "media-preview-modal";
+  modal.innerHTML = `
+    <div class="media-preview-panel" role="dialog" aria-modal="true" aria-label="素材预览">
+      <button type="button" class="modal-close" data-preview-close>×</button>
+      <div class="media-preview-body"></div>
+      <div class="media-preview-info">
+        <div>
+          <strong data-preview-title></strong>
+          <p data-preview-prompt></p>
+        </div>
+        <button type="button" class="white-button small" data-preview-save>保存到资产库</button>
+      </div>
+    </div>
+  `;
+  document.body.appendChild(modal);
+  return modal;
+}
+
+function openMediaPreview({ url, type, title, prompt }) {
+  const modal = ensurePreviewModal();
+  modal.dataset.url = url;
+  modal.dataset.type = type;
+  modal.dataset.title = title;
+  modal.dataset.prompt = prompt || "";
+  const body = modal.querySelector(".media-preview-body");
+  body.innerHTML = type === "video"
+    ? `<div class="modal-video-frame"><img src="${escapeHtml(url)}" alt="${escapeHtml(title)}"><span>视频预览</span></div>`
+    : `<img src="${escapeHtml(url)}" alt="${escapeHtml(title)}">`;
+  modal.querySelector("[data-preview-title]").textContent = title;
+  modal.querySelector("[data-preview-prompt]").textContent = prompt || "生成素材";
+  modal.classList.add("open");
+}
+
+function closeMediaPreview() {
+  $("#mediaPreviewModal")?.classList.remove("open");
+}
+
+function bindMediaPreview() {
+  document.addEventListener("click", (event) => {
+    const saveButton = event.target.closest("[data-result-save], [data-preview-save]");
+    if (saveButton) {
+      const modal = saveButton.closest("#mediaPreviewModal");
+      saveGeneratedAsset({
+        url: saveButton.dataset.url || modal?.dataset.url,
+        type: saveButton.dataset.type || modal?.dataset.type || "image",
+        title: saveButton.dataset.title || modal?.dataset.title,
+        prompt: saveButton.dataset.prompt || modal?.dataset.prompt || ""
+      });
+      return;
+    }
+
+    if (event.target.closest("[data-preview-close]")) {
+      closeMediaPreview();
+      return;
+    }
+
+    const modal = event.target.closest("#mediaPreviewModal");
+    if (modal && event.target.id === "mediaPreviewModal") {
+      closeMediaPreview();
+      return;
+    }
+
+    if (event.target.closest("button, a")) return;
+    const preview = event.target.closest("[data-preview-url]");
+    if (!preview) return;
+    openMediaPreview({
+      url: preview.dataset.previewUrl,
+      type: preview.dataset.previewType || "image",
+      title: preview.dataset.previewTitle || "素材预览",
+      prompt: preview.dataset.previewPrompt || ""
+    });
+  });
+
+  document.addEventListener("keydown", (event) => {
+    if (event.key === "Escape") closeMediaPreview();
+  });
+}
+
 function renderAssets() {
   const grid = $("#assetGrid");
   const homeGrid = $("#homeAssetGrid");
   if (homeGrid) renderHomeAssets(homeGrid);
   if (!grid) return;
   if (!state.assets.length) {
-    grid.innerHTML = `<div class="status-line">暂无资产。生成效果图或视频后会自动保存到这里。</div>`;
+    grid.innerHTML = `<div class="status-line">暂无资产。生成图片或视频后，点击“保存到资产库”即可沉淀到这里。</div>`;
     return;
   }
-  grid.innerHTML = state.assets.map((asset) => {
+
+  const filter = grid.dataset.filter || "all";
+  let assets = state.assets.slice();
+  if (filter === "image") assets = assets.filter((asset) => asset.type === "image");
+  if (filter === "video") assets = assets.filter((asset) => asset.type === "video");
+  if (filter === "floorplan") assets = assets.filter((asset) => String(asset.prompt || "").includes("户型生图"));
+  if (filter === "text") assets = assets.filter((asset) => String(asset.prompt || "").includes("文本生图"));
+  if (filter === "recent") assets = assets.slice(0, 8);
+
+  if (!assets.length) {
+    grid.innerHTML = `<div class="empty-preview"><span></span><strong>还没有资产</strong><p>开始一次创作并保存后会出现在这里。</p></div>`;
+    return;
+  }
+
+  grid.innerHTML = assets.map((asset) => {
+    const detail = asset.prompt || asset.description || "";
     const media = asset.type === "video"
       ? `<div class="asset-thumb-video">▶</div>`
       : `<img src="${escapeHtml(asset.url)}" alt="${escapeHtml(asset.title)}">`;
     return `
-      <article class="asset-card">
+      <article class="asset-card is-previewable" data-preview-url="${escapeHtml(asset.url)}" data-preview-type="${asset.type}" data-preview-title="${escapeHtml(asset.title)}" data-preview-prompt="${escapeHtml(detail)}">
         ${media}
         <div class="asset-body">
           <strong>${escapeHtml(asset.title)}</strong>
-          <p>${escapeHtml(asset.prompt || asset.description || "")}</p>
+          <p>${escapeHtml(detail)}</p>
           <small>${new Date(asset.createdAt).toLocaleString("zh-CN")}</small>
+        </div>
+        <div class="asset-actions-row">
+          <button type="button" data-asset-action="reuse">复用</button>
+          <button type="button" data-asset-action="video">转视频</button>
+          <button type="button" data-asset-action="download">下载</button>
+          <button type="button" data-asset-action="delete" data-id="${asset.id}">删除</button>
         </div>
       </article>
     `;
@@ -308,7 +447,7 @@ function renderHomeAssets(grid) {
     grid.innerHTML = `
       <a class="home-asset empty" href="floorplan.html">
         <strong>还没有资产</strong>
-        <span>生成第一张全屋定制效果图</span>
+        <span>生成并保存第一张全屋定制效果图</span>
       </a>
     `;
     return;
@@ -326,7 +465,14 @@ function renderHomeAssets(grid) {
 
 function bindHome() {
   const quickStart = $("#quickStart");
+  $$(".prompt-pills button").forEach((button) => {
+    button.addEventListener("click", () => {
+      const target = $("#quickPrompt") || $("#textPrompt");
+      if (target) target.value = button.textContent.trim();
+    });
+  });
   if (!quickStart) return;
+
   const trigger = $("#modeTrigger");
   const dropdown = $("#modeDropdown");
   trigger?.addEventListener("click", () => dropdown?.classList.toggle("open"));
@@ -337,11 +483,6 @@ function bindHome() {
       button.classList.add("active");
       if (trigger) trigger.innerHTML = `${button.childNodes[0].textContent.trim()} <span>⌄</span>`;
       dropdown?.classList.remove("open");
-    });
-  });
-  $$(".prompt-pills button").forEach((button) => {
-    button.addEventListener("click", () => {
-      $("#quickPrompt").value = button.textContent.trim();
     });
   });
   quickStart.addEventListener("click", () => {
@@ -363,7 +504,7 @@ function bindFloorplan() {
     try {
       const uploaded = await uploadImage(file);
       floorplanReference = uploaded.url;
-      $("#floorLog").textContent = "户型图已上传完成，可开始生成。";
+      $("#floorLog").textContent = "户型图已上传完成，可以开始生成。";
     } catch (error) {
       floorplanReference = "";
       $("#floorLog").textContent = `上传失败：${error.message}。请检查阿里 OSS 环境变量。`;
@@ -371,6 +512,7 @@ function bindFloorplan() {
   });
   form.addEventListener("submit", async (event) => {
     event.preventDefault();
+    const button = form.querySelector(".generate-button");
     if (!floorplanReference) {
       toast("请先上传户型平面图");
       return;
@@ -379,7 +521,9 @@ function bindFloorplan() {
     const area = activeValue("floorArea", "floorAreaOther");
     const count = Math.max(1, Math.min(4, Number($("#floorCount").value || 1)));
     const prompt = `根据上传的户型平面图生成${area}全屋定制效果图，风格为${style}，柜体比例合理，材质真实，空间动线清晰，室内摄影级渲染。`;
-    await submitImageTask({ prompt, size: $("#floorSize").value, urls: [floorplanReference], count, targetId: "#floorResults", logId: "#floorLog", label: `${area}效果图` });
+    setButtonLoading(button, true);
+    await submitImageTask({ prompt, size: $("#floorSize").value, urls: [floorplanReference], count, targetId: "#floorResults", logId: "#floorLog", label: `${area}效果图`, source: "户型生图" });
+    setButtonLoading(button, false);
   });
   $("#floorToVideoBtn")?.addEventListener("click", continueToVideo);
 }
@@ -394,11 +538,14 @@ function bindTextImage() {
   }
   form.addEventListener("submit", async (event) => {
     event.preventDefault();
+    const button = form.querySelector(".generate-button");
     const style = activeValue("textStyle", "textStyleOther");
     const area = activeValue("textArea", "textAreaOther");
     const count = Math.max(1, Math.min(4, Number($("#textCount").value || 1)));
     const prompt = `${$("#textPrompt").value.trim()}，区域：${area}，风格：${style}，全屋定制效果图，高质量室内摄影，真实材质，专业灯光。`;
-    await submitImageTask({ prompt, size: $("#textSize").value, urls: [], count, targetId: "#textResults", logId: "#textLog", label: `${area}效果图` });
+    setButtonLoading(button, true);
+    await submitImageTask({ prompt, size: $("#textSize").value, urls: [], count, targetId: "#textResults", logId: "#textLog", label: `${area}效果图`, source: "文本生图" });
+    setButtonLoading(button, false);
   });
   $("#textToVideoBtn")?.addEventListener("click", continueToVideo);
 }
@@ -428,6 +575,7 @@ function bindVideo() {
   });
   form.addEventListener("submit", (event) => {
     event.preventDefault();
+    const button = form.querySelector(".generate-button");
     if (!videoImages.length) {
       toast("请先上传图片素材");
       return;
@@ -437,15 +585,17 @@ function bindVideo() {
     if (!charge(cost)) return;
     const subtitle = $("#subtitleText").value.trim() || "智绘全屋 · 定制美好空间";
     const music = $("#musicUpload").files?.[0]?.name || "未添加音乐";
+    setButtonLoading(button, true, "AI 正在剪辑...");
     $("#videoResults").innerHTML = renderGeneratingCard("定制化视频");
     $("#videoLog").textContent = "正在剪辑视频，请稍候。";
     window.setTimeout(() => {
-    $("#videoResults").innerHTML = renderResultCard(videoImages[0], "定制化视频", `${videoImages.length} 张图 · ${seconds} 秒/图 · ${music}`);
-    $("#videoLog").textContent = `视频已生成：已添加字幕“${subtitle}”，并完成图片拼接与背景音乐配置。`;
-    addAsset({ type: "video", title: "全屋定制视频", description: `${videoImages.length} 张图片，字幕：${subtitle}`, url: videoImages[0] });
-    state.pendingVideoImages = [];
-    saveState();
-    toast(`视频已生成，消耗 ${cost} 点积分`);
+      const description = `${videoImages.length} 张图 · ${seconds} 秒/图 · ${music} · 字幕：${subtitle}`;
+      $("#videoResults").innerHTML = renderResultCard(videoImages[0], "定制化视频", description, "video");
+      $("#videoLog").textContent = "视频已生成，可点击预览放大查看，也可以保存到资产库。";
+      state.pendingVideoImages = [];
+      saveState();
+      toast(`视频已生成，消耗 ${cost} 点积分`);
+      setButtonLoading(button, false);
     }, 1200);
   });
 }
@@ -460,6 +610,7 @@ function bindPricing() {
   if (!$("#rechargeBtn")) return;
   $$(".price-card").forEach((card) => {
     card.addEventListener("click", () => {
+      if (!card.dataset.plan) return;
       if (card.dataset.plan === "normal") {
         state.tier = "normal";
         state.cycle = null;
@@ -493,7 +644,7 @@ function bindPricing() {
     state.points += points;
     saveState();
     updatePoints();
-    $("#payResult").textContent = `${method}支付成功，到账 ${points.toLocaleString("zh-CN")} 点积分`;
+    $("#payResult").textContent = `${method}支付成功，到货 ${points.toLocaleString("zh-CN")} 点积分`;
     toast("充值成功");
   });
   $("#contactSalesBtn")?.addEventListener("click", () => {
@@ -515,6 +666,37 @@ function updatePriceCards() {
 }
 
 function bindAssets() {
+  $$(".asset-filters button").forEach((button) => {
+    button.addEventListener("click", () => {
+      $$(".asset-filters button").forEach((item) => item.classList.remove("active"));
+      button.classList.add("active");
+      const grid = $("#assetGrid");
+      if (grid) grid.dataset.filter = button.dataset.filter || "all";
+      renderAssets();
+    });
+  });
+  $("#assetGrid")?.addEventListener("click", (event) => {
+    const action = event.target?.dataset?.assetAction;
+    if (!action) return;
+    if (action === "delete") {
+      state.assets = state.assets.filter((asset) => asset.id !== event.target.dataset.id);
+      saveState();
+      renderAssets();
+      toast("资产已删除");
+      return;
+    }
+    if (action === "video") {
+      const card = event.target.closest(".asset-card");
+      const img = card?.querySelector("img")?.src;
+      if (img) {
+        state.pendingVideoImages = [img];
+        saveState();
+      }
+      window.location.href = "video.html";
+      return;
+    }
+    toast(action === "download" ? "下载功能将在商用版接入" : "已复用为创作参考");
+  });
   $("#clearAssetsBtn")?.addEventListener("click", () => {
     state.assets = [];
     saveState();
@@ -543,6 +725,7 @@ function init() {
   bindVideo();
   bindPricing();
   bindAssets();
+  bindMediaPreview();
   renderAssets();
   updatePriceCards();
 }

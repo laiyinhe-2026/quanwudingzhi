@@ -7,33 +7,24 @@
     <link rel="stylesheet" href="styles.css">
   </head>
   <body data-page="floorplan">
-    <div class="top-ribbon"><span>上传户型平面图，快速生成全屋定制效果图</span><a href="pricing.html">充值积分</a></div>
+    <div class="ambient-bg" aria-hidden="true"></div>
     <header class="app-header">
       <a class="logo-link" href="index.html"><img src="image.png" alt="智绘全屋"></a>
-      <nav class="top-nav">
-        <a href="index.html">首页</a><a class="active" href="floorplan.html">户型生图</a><a href="text-image.html">文本生图</a><a href="video.html">视频剪辑</a><a href="assets.html">资产库</a>
-      </nav>
-      <div class="header-actions"><a class="points-chip" href="pricing.html">✦ <span data-points>1000</span></a><a class="black-button small" href="pricing.html">开会员</a><div class="profile-menu"><button class="avatar-button" type="button">智</button><div class="profile-popover"><strong>智绘全屋账户</strong><p>会员积分 <b data-points>1000</b></p><p>奖励积分 <b data-reward-points>88</b></p><a href="pricing.html">查看用量</a><a href="pricing.html">管理账户</a></div></div></div>
+      <nav class="top-nav"><a href="index.html">首页</a><a class="active" href="floorplan.html">户型生图</a><a href="text-image.html">文本生图</a><a href="video.html">视频剪辑</a><a href="assets.html">资产库</a><a href="pricing.html">会员</a></nav>
+      <div class="header-actions"><a class="points-chip" href="pricing.html">✦ <span data-points>1000</span></a><a class="white-button small" href="pricing.html">开会员</a><div class="profile-menu"><button class="avatar-button" type="button">智</button><div class="profile-popover"><strong>智绘全屋账户</strong><p>会员积分 <b data-points>1000</b></p><p>奖励积分 <b data-reward-points>88</b></p><a href="pricing.html">查看用量</a><a href="pricing.html">管理账户</a></div></div></div>
     </header>
-
-    <main class="workspace-page">
-      <aside class="side-panel">
-        <a class="new-task active" href="floorplan.html">+ 新建户型生图</a>
-        <a href="text-image.html">文本生图</a>
-        <a href="video.html">视频剪辑</a>
-        <a href="assets.html">资产库</a>
-      </aside>
-      <section class="tool-workspace">
-        <form class="creator-box" id="floorplanForm">
-          <div class="page-heading">
-            <span>Floor plan to render</span>
-            <h1>户型生成效果图</h1>
-            <p>上传户型平面图后，选择风格、区域和数量，系统自动生成对应全屋定制效果图。</p>
-          </div>
+    <main class="studio-page">
+      <div class="page-heading studio-title">
+        <p class="eyebrow">Floor plan to render</p>
+        <h1>户型生成效果图</h1>
+        <p>上传户型平面图，选择风格、区域和比例，快速生成全屋定制沟通图。</p>
+      </div>
+      <section class="studio-layout">
+        <form class="creator-box parameter-panel" id="floorplanForm">
           <label class="upload-drop">
             <input id="floorplanUpload" type="file" accept="image/*" required>
             <strong>上传户型平面图</strong>
-            <small>支持 JPG、PNG，商用版会自动上传并转换为可生成素材</small>
+            <small>AI 将根据平面图理解空间结构与定制区域</small>
           </label>
           <div class="preview-grid single" id="floorplanPreview"></div>
           <div class="form-grid">
@@ -41,13 +32,14 @@
             <label class="other-field" id="floorStyleOtherWrap">其他风格<input id="floorStyleOther" placeholder="填写其他风格"></label>
             <label>区域选择<select id="floorArea"><option>全屋</option><option>客餐厅</option><option>主卧</option><option>儿童房</option><option>厨房</option><option>衣帽间</option><option value="other">其他</option></select></label>
             <label class="other-field" id="floorAreaOtherWrap">其他区域<input id="floorAreaOther" placeholder="填写其他区域"></label>
-            <label>生成数量<input id="floorCount" type="number" min="1" max="4" value="2"></label>
             <label>画面比例<select id="floorSize"><option>16:9</option><option>4:3</option><option>1:1</option><option>9:16</option></select></label>
+            <label>生成数量<input id="floorCount" type="number" min="1" max="4" value="2"></label>
           </div>
-          <button class="black-button wide" type="submit">生成效果图</button>
+          <button class="white-button wide generate-button" type="submit">生成效果图</button>
         </form>
-        <section class="result-box">
-          <div class="result-head"><h2>生成结果</h2><button class="plain-button" id="floorToVideoBtn" type="button">继续转视频</button></div>
+        <section class="result-box preview-panel">
+          <div class="result-head"><div><h2>生成预览</h2><p>上传户型图后，AI 将在这里生成空间效果图。</p></div><button class="ghost-button small" id="floorToVideoBtn" type="button">继续转视频</button></div>
+          <div class="empty-preview" id="floorEmptyPreview"><span></span><strong>等待户型图</strong><p>生成中的空间雏形会先以骨架态呈现。</p></div>
           <div class="result-gallery" id="floorResults"></div>
           <div class="status-line" id="floorLog">等待上传户型图。</div>
         </section>
