@@ -2,6 +2,8 @@ const http = require("http");
 const fs = require("fs");
 const path = require("path");
 
+require("dotenv").config();
+
 const generateImage = require("./api/generate-image");
 const taskDetail = require("./api/task-detail");
 const upload = require("./api/upload");
