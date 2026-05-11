@@ -8,7 +8,7 @@
   </head>
   <body>
     <div class="top-ribbon">
-      <span>会员生成消耗更低，企业版 2000 元起充免会员费</span>
+      <span>会员生成消耗更低，企业版支持团队协作与专属服务</span>
       <a href="pricing.html">开通会员</a>
     </div>
     <header class="app-header">
@@ -25,6 +25,16 @@
       <div class="header-actions">
         <a class="points-chip" href="pricing.html">✦ <span data-points>1000</span></a>
         <a class="black-button small" href="pricing.html">开会员</a>
+        <div class="profile-menu">
+          <button class="avatar-button" type="button" aria-label="个人资料">智</button>
+          <div class="profile-popover">
+            <strong>智绘全屋账户</strong>
+            <p>会员积分 <b data-points>1000</b></p>
+            <p>奖励积分 <b data-reward-points>88</b></p>
+            <a href="pricing.html">查看用量</a>
+            <a href="pricing.html">管理账户</a>
+          </div>
+        </div>
       </div>
     </header>
 
@@ -40,9 +50,14 @@
           <textarea id="quickPrompt" rows="4" placeholder="描述你的想法，可用于文本生图。例如：现代奶油风主卧，到顶衣柜，隐藏灯带，真实室内摄影。"></textarea>
           <div class="composer-bar">
             <a class="circle-action" href="floorplan.html" title="上传户型">+</a>
-            <button class="mode-pill active" type="button" data-target="floorplan.html">户型生图</button>
-            <button class="mode-pill" type="button" data-target="text-image.html">文本生图</button>
-            <button class="mode-pill" type="button" data-target="video.html">视频剪辑</button>
+            <div class="mode-select">
+              <button class="mode-trigger" type="button" id="modeTrigger">户型生图 <span>⌄</span></button>
+              <div class="mode-dropdown" id="modeDropdown">
+                <button class="active" type="button" data-target="floorplan.html">户型生图<span>上传平面图生成效果图</span></button>
+                <button type="button" data-target="text-image.html">文本生图<span>输入提示词生成方案</span></button>
+                <button type="button" data-target="video.html">视频剪辑<span>图片拼接字幕音乐</span></button>
+              </div>
+            </div>
             <button class="send-button" id="quickStart" type="button">↑</button>
           </div>
         </div>
@@ -83,6 +98,11 @@
             <small>普通版、会员版、企业版</small>
           </a>
         </div>
+        <div class="asset-strip-head">
+          <h2>个人资产库</h2>
+          <a href="assets.html">查看全部</a>
+        </div>
+        <div class="home-asset-grid" id="homeAssetGrid"></div>
       </section>
     </main>
 

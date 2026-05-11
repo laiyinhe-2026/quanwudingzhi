@@ -11,12 +11,12 @@
     <header class="app-header">
       <a class="logo-link" href="index.html"><img src="image.png" alt="智绘全屋"></a>
       <nav class="top-nav"><a href="index.html">首页</a><a href="floorplan.html">户型生图</a><a href="text-image.html">文本生图</a><a href="video.html">视频剪辑</a><a href="assets.html">资产库</a></nav>
-      <div class="header-actions"><a class="points-chip active" href="pricing.html">✦ <span data-points>1000</span></a><a class="black-button small" href="pricing.html">充值</a></div>
+      <div class="header-actions"><a class="points-chip active" href="pricing.html">✦ <span data-points>1000</span></a><a class="black-button small" href="pricing.html">充值</a><div class="profile-menu"><button class="avatar-button" type="button">智</button><div class="profile-popover"><strong>智绘全屋账户</strong><p>会员积分 <b data-points>1000</b></p><p>奖励积分 <b data-reward-points>88</b></p><a href="pricing.html">查看用量</a><a href="pricing.html">管理账户</a></div></div></div>
     </header>
     <main class="pricing-page">
       <section class="pricing-hero">
         <h1>选择合适的计划，助力业务提升</h1>
-        <p>普通版永久免费，标准会员赠送积分并降低生成消耗，企业版充值 2000 元起免会员费。</p>
+        <p>普通版永久免费，标准会员赠送积分并降低生成消耗，企业版支持团队协作、提示词服务和积分优惠。</p>
       </section>
       <section class="price-grid">
         <article class="price-card" data-plan="normal"><h3>普通版</h3><strong>0 元</strong><p>永久免费</p><ul><li>图片和视频按普通消耗扣点</li><li>支持资产库保存</li><li>适合低频试单</li></ul><button class="plain-button" type="button">当前计划</button></article>
@@ -32,11 +32,19 @@
         <div class="pay-result" id="payResult">预计到账 10000 点积分</div>
       </section>
       <section class="enterprise-card">
-        <div><h2>企业版</h2><p>充值 2000 元起，免会员费，包含提示词优化服务，按最低消耗点数计费。</p></div>
-        <label>企业充值金额<input id="enterpriseAmount" type="number" min="2000" value="2000"></label>
-        <button class="black-button" id="enterpriseBtn" type="button">开通企业版</button>
+        <div><h2>企业版</h2><p>适合工厂、连锁门店和设计服务商，包含团队成员共享资产库、提示词服务、积分优惠。</p></div>
+        <ul class="enterprise-benefits"><li>团队成员共享资产库</li><li>专属提示词优化服务</li><li>企业积分优惠</li></ul>
+        <button class="black-button" id="contactSalesBtn" type="button">联系销售</button>
       </section>
     </main>
+    <div class="sales-modal" id="salesModal" aria-hidden="true">
+      <div class="sales-card">
+        <button class="modal-close" id="salesClose" type="button">×</button>
+        <h2>联系销售</h2>
+        <p>扫码添加企业顾问，获取团队版报价与开通支持。</p>
+        <div class="qr-code"><span>智绘全屋</span></div>
+      </div>
+    </div>
     <div class="toast" id="toast"></div>
     <script src="config.js"></script>
     <script src="app.js"></script>

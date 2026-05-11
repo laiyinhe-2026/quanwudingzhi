@@ -41,6 +41,9 @@ function updatePoints() {
   $$("[data-points]").forEach((node) => {
     node.textContent = Math.round(state.points).toLocaleString("zh-CN");
   });
+  $$("[data-reward-points]").forEach((node) => {
+    node.textContent = "88";
+  });
 }
 
 function uid() {
@@ -79,6 +82,20 @@ function renderResultCard(url, title, prompt) {
     <article class="result-card">
       <img src="${escapeHtml(url)}" alt="${escapeHtml(title)}">
       <span>${escapeHtml(title)} · ${escapeHtml(prompt.slice(0, 28))}</span>
+    </article>
+  `;
+}
+
+function renderGeneratingCard(label) {
+  return `
+    <article class="generating-card" aria-live="polite">
+      <div class="render-ghost">
+        <span></span>
+        <span></span>
+        <span></span>
+      </div>
+      <strong>${escapeHtml(label)}正在生成</strong>
+      <p>正在理解空间结构、材质和光影，请稍候。</p>
     </article>
   `;
 }
@@ -172,7 +189,7 @@ async function waitForImageUrls(taskId, log) {
     const detail = await queryImageTask(taskId);
     const urls = extractImageUrls(detail);
     if (urls.length) return urls;
-    if (log) log.textContent = `任务处理中，已查询 ${index + 1} 次。`;
+    if (log) log.textContent = "正在生成效果图，请稍候。";
     if (isTaskDone(detail)) return urls;
   }
   return [];
@@ -210,13 +227,17 @@ async function submitImageTask({ prompt, size, urls, count, targetId, logId, lab
   const cost = count * (state.tier === "enterprise" ? 6 : state.tier === "member" ? 10 : 16);
   if (!charge(cost)) return;
   const log = $(logId);
-  if (log) log.textContent = "已提交生成任务，正在排队处理。";
+  const target = $(targetId);
+  if (target) {
+    target.innerHTML = Array.from({ length: count }, () => renderGeneratingCard(label)).join("");
+  }
+  if (log) log.textContent = "正在生成效果图，请稍候。";
 
   let images = [];
   try {
     const result = await callImageApi({ prompt, size, urls });
     const taskId = extractTaskId(result);
-    if (log) log.textContent = taskId ? `任务已提交成功，任务编号：${taskId}。正在自动查询结果。` : "任务已提交成功，正在查询结果。";
+    if (log) log.textContent = "正在生成效果图，请稍候。";
     images = extractImageUrls(result);
     if (!images.length && taskId) {
       images = await waitForImageUrls(taskId, log);
@@ -236,7 +257,6 @@ async function submitImageTask({ prompt, size, urls, count, targetId, logId, lab
     return;
   }
   images = images.slice(0, count);
-  const target = $(targetId);
   if (target) target.innerHTML = images.map((url, index) => renderResultCard(url, `${label} ${index + 1}`, prompt)).join("");
   state.pendingVideoImages = images;
   images.forEach((url, index) => addAsset({
@@ -258,6 +278,8 @@ function addAsset(asset, persist = true) {
 
 function renderAssets() {
   const grid = $("#assetGrid");
+  const homeGrid = $("#homeAssetGrid");
+  if (homeGrid) renderHomeAssets(homeGrid);
   if (!grid) return;
   if (!state.assets.length) {
     grid.innerHTML = `<div class="status-line">暂无资产。生成效果图或视频后会自动保存到这里。</div>`;
@@ -280,14 +302,41 @@ function renderAssets() {
   }).join("");
 }
 
+function renderHomeAssets(grid) {
+  const assets = state.assets.slice(0, 4);
+  if (!assets.length) {
+    grid.innerHTML = `
+      <a class="home-asset empty" href="floorplan.html">
+        <strong>还没有资产</strong>
+        <span>生成第一张全屋定制效果图</span>
+      </a>
+    `;
+    return;
+  }
+  grid.innerHTML = assets.map((asset) => {
+    const bg = asset.type === "video" ? "" : `style="background-image:url('${escapeHtml(asset.url)}')"`;
+    return `
+      <a class="home-asset" href="assets.html" ${bg}>
+        <strong>${escapeHtml(asset.title)}</strong>
+        <span>${asset.type === "video" ? "视频资产" : "图片资产"}</span>
+      </a>
+    `;
+  }).join("");
+}
+
 function bindHome() {
   const quickStart = $("#quickStart");
   if (!quickStart) return;
-  $$(".mode-pill").forEach((button) => {
+  const trigger = $("#modeTrigger");
+  const dropdown = $("#modeDropdown");
+  trigger?.addEventListener("click", () => dropdown?.classList.toggle("open"));
+  $$(".mode-dropdown button").forEach((button) => {
     button.addEventListener("click", () => {
       quickTarget = button.dataset.target;
-      $$(".mode-pill").forEach((item) => item.classList.remove("active"));
+      $$(".mode-dropdown button").forEach((item) => item.classList.remove("active"));
       button.classList.add("active");
+      if (trigger) trigger.innerHTML = `${button.childNodes[0].textContent.trim()} <span>⌄</span>`;
+      dropdown?.classList.remove("open");
     });
   });
   $$(".prompt-pills button").forEach((button) => {
@@ -388,12 +437,16 @@ function bindVideo() {
     if (!charge(cost)) return;
     const subtitle = $("#subtitleText").value.trim() || "智绘全屋 · 定制美好空间";
     const music = $("#musicUpload").files?.[0]?.name || "未添加音乐";
+    $("#videoResults").innerHTML = renderGeneratingCard("定制化视频");
+    $("#videoLog").textContent = "正在剪辑视频，请稍候。";
+    window.setTimeout(() => {
     $("#videoResults").innerHTML = renderResultCard(videoImages[0], "定制化视频", `${videoImages.length} 张图 · ${seconds} 秒/图 · ${music}`);
     $("#videoLog").textContent = `视频已生成：已添加字幕“${subtitle}”，并完成图片拼接与背景音乐配置。`;
     addAsset({ type: "video", title: "全屋定制视频", description: `${videoImages.length} 张图片，字幕：${subtitle}`, url: videoImages[0] });
     state.pendingVideoImages = [];
     saveState();
     toast(`视频已生成，消耗 ${cost} 点积分`);
+    }, 1200);
   });
 }
 
@@ -443,19 +496,14 @@ function bindPricing() {
     $("#payResult").textContent = `${method}支付成功，到账 ${points.toLocaleString("zh-CN")} 点积分`;
     toast("充值成功");
   });
-  $("#enterpriseBtn").addEventListener("click", () => {
-    const amount = Number($("#enterpriseAmount").value || 0);
-    if (amount < 2000) {
-      toast("企业版充值 2000 元起");
-      return;
-    }
-    state.tier = "enterprise";
-    state.cycle = null;
-    state.points += amount * 100;
-    saveState();
-    updatePoints();
-    updatePriceCards();
-    toast(`企业版已开通，到账 ${(amount * 100).toLocaleString("zh-CN")} 点积分`);
+  $("#contactSalesBtn")?.addEventListener("click", () => {
+    $("#salesModal")?.classList.add("open");
+  });
+  $("#salesClose")?.addEventListener("click", () => {
+    $("#salesModal")?.classList.remove("open");
+  });
+  $("#salesModal")?.addEventListener("click", (event) => {
+    if (event.target.id === "salesModal") $("#salesModal").classList.remove("open");
   });
 }
 
