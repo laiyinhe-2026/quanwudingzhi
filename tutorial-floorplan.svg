@@ -1,0 +1,30 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="760" viewBox="0 0 1200 760">
+  <defs>
+    <linearGradient id="bg" x1="0" x2="1" y1="0" y2="1">
+      <stop offset="0" stop-color="#1c2430"/>
+      <stop offset="0.55" stop-color="#10131a"/>
+      <stop offset="1" stop-color="#2a2240"/>
+    </linearGradient>
+    <linearGradient id="accent" x1="0" x2="1">
+      <stop offset="0" stop-color="#8ab4ff"/>
+      <stop offset="0.55" stop-color="#a78bfa"/>
+      <stop offset="1" stop-color="#f6d7a7"/>
+    </linearGradient>
+  </defs>
+  <rect width="1200" height="760" rx="44" fill="url(#bg)"/>
+  <circle cx="980" cy="120" r="160" fill="#8ab4ff" opacity=".12"/>
+  <circle cx="190" cy="640" r="180" fill="#f6d7a7" opacity=".1"/>
+  <rect x="88" y="86" width="450" height="560" rx="28" fill="#ffffff" opacity=".08" stroke="#ffffff" stroke-opacity=".16"/>
+  <rect x="138" y="136" width="350" height="460" rx="12" fill="none" stroke="#ffffff" stroke-opacity=".72" stroke-width="8"/>
+  <path d="M138 292h350M286 136v460M138 438h148M286 438h202" stroke="#ffffff" stroke-opacity=".48" stroke-width="6"/>
+  <path d="M138 292c72 0 112-36 112-94" stroke="url(#accent)" stroke-width="10" fill="none" stroke-linecap="round"/>
+  <rect x="620" y="112" width="420" height="84" rx="42" fill="url(#accent)" opacity=".96"/>
+  <text x="650" y="166" fill="#081018" font-size="34" font-family="PingFang SC, Microsoft YaHei, Arial" font-weight="700">上传户型图</text>
+  <rect x="620" y="242" width="420" height="84" rx="24" fill="#ffffff" opacity=".1" stroke="#ffffff" stroke-opacity=".16"/>
+  <text x="650" y="295" fill="#fff" font-size="30" font-family="PingFang SC, Microsoft YaHei, Arial">选择风格、区域、比例</text>
+  <rect x="620" y="372" width="420" height="84" rx="24" fill="#ffffff" opacity=".1" stroke="#ffffff" stroke-opacity=".16"/>
+  <text x="650" y="425" fill="#fff" font-size="30" font-family="PingFang SC, Microsoft YaHei, Arial">生成多张效果图</text>
+  <rect x="620" y="502" width="420" height="84" rx="24" fill="#ffffff" opacity=".1" stroke="#ffffff" stroke-opacity=".16"/>
+  <text x="650" y="555" fill="#fff" font-size="30" font-family="PingFang SC, Microsoft YaHei, Arial">放大预览并保存</text>
+  <text x="92" y="704" fill="#fff" fill-opacity=".72" font-size="28" font-family="PingFang SC, Microsoft YaHei, Arial">户型生图流程示意</text>
+</svg>

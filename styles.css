@@ -272,7 +272,8 @@ a:hover {
 .home-shell,
 .studio-page,
 .pricing-page,
-.assets-page {
+.assets-page,
+.tutorial-page {
   max-width: var(--max);
   margin: 0 auto;
   padding: 0 32px 96px;
@@ -1253,6 +1254,83 @@ textarea::placeholder {
   font-size: 12px;
 }
 
+.tutorial-page {
+  padding-top: 64px;
+}
+
+.tutorial-hero {
+  max-width: 860px;
+  margin-bottom: 46px;
+}
+
+.tutorial-section {
+  margin-top: 28px;
+  border: 1px solid var(--line);
+  border-radius: 30px;
+  padding: 28px;
+  display: grid;
+  grid-template-columns: minmax(320px, 0.9fr) minmax(0, 1.1fr);
+  gap: 32px;
+  align-items: center;
+  background: var(--card);
+  box-shadow: var(--shadow);
+  backdrop-filter: blur(20px);
+}
+
+.tutorial-section.reverse {
+  grid-template-columns: minmax(0, 1.1fr) minmax(320px, 0.9fr);
+}
+
+.tutorial-section.reverse .tutorial-copy {
+  order: 2;
+}
+
+.tutorial-copy > span {
+  display: inline-flex;
+  margin-bottom: 18px;
+  background: var(--grad);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  font-size: 42px;
+  font-weight: 300;
+}
+
+.tutorial-copy ol {
+  margin: 18px 0 24px;
+  padding-left: 22px;
+  color: var(--body);
+  line-height: 1.85;
+}
+
+.tutorial-figure {
+  margin: 0;
+}
+
+.tutorial-figure img {
+  width: 100%;
+  border: 1px solid var(--line);
+  border-radius: 24px;
+  display: block;
+  background: rgba(255,255,255,0.04);
+}
+
+.tutorial-figure figcaption {
+  margin-top: 12px;
+  color: var(--muted);
+  font-size: 14px;
+}
+
+.tutorial-note {
+  margin-top: 34px;
+  border: 1px solid rgba(246,215,167,0.24);
+  border-radius: 28px;
+  padding: 30px;
+  background:
+    radial-gradient(circle at 85% 18%, rgba(246,215,167,0.16), transparent 34%),
+    rgba(255,255,255,0.06);
+}
+
 .toast {
   position: fixed;
   left: 50%;
@@ -1278,6 +1356,85 @@ textarea::placeholder {
 
 .mobile-tabbar {
   display: none;
+}
+
+@media (min-width: 1121px) {
+  .app-header {
+    position: fixed;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 236px;
+    height: 100vh;
+    padding: 24px 18px;
+    grid-template-columns: 1fr;
+    grid-template-rows: auto minmax(0, 1fr) auto;
+    align-items: stretch;
+    gap: 24px;
+    border-right: 1px solid rgba(255,255,255,0.08);
+    border-bottom: 0;
+    background: rgba(5,6,8,0.82);
+  }
+
+  .logo-link {
+    width: 188px;
+    height: 54px;
+  }
+
+  .top-nav {
+    flex-direction: column;
+    align-items: stretch;
+    justify-content: flex-start;
+    gap: 8px;
+  }
+
+  .top-nav a {
+    min-height: 44px;
+    justify-content: flex-start;
+    padding: 0 16px;
+    display: flex;
+    align-items: center;
+    border: 1px solid transparent;
+  }
+
+  .top-nav a.active,
+  .top-nav a:hover {
+    border-color: rgba(255,255,255,0.12);
+  }
+
+  .header-actions {
+    align-items: stretch;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .header-actions .points-chip,
+  .header-actions .white-button,
+  .header-actions .ghost-button {
+    width: 100%;
+  }
+
+  .profile-menu {
+    display: flex;
+    justify-content: center;
+  }
+
+  .profile-popover {
+    left: calc(100% + 14px);
+    right: auto;
+    bottom: 0;
+    top: auto;
+  }
+
+  .home-shell,
+  .studio-page,
+  .pricing-page,
+  .assets-page,
+  .tutorial-page {
+    width: calc(100% - 236px);
+    margin-left: 236px;
+    margin-right: 0;
+  }
 }
 
 @media (max-width: 1120px) {
@@ -1325,7 +1482,8 @@ textarea::placeholder {
   .home-shell,
   .studio-page,
   .pricing-page,
-  .assets-page {
+  .assets-page,
+  .tutorial-page {
     width: 100%;
     padding-left: 18px;
     padding-right: 18px;
@@ -1336,6 +1494,7 @@ textarea::placeholder {
   .studio-page,
   .pricing-page,
   .assets-page,
+  .tutorial-page,
   .app-header,
   .hero-composer,
   .module-grid,
@@ -1547,6 +1706,7 @@ textarea::placeholder {
   .capability-board,
   .studio-layout,
   .prompt-layout,
+  .tutorial-section,
   .asset-story,
   .payment-card {
     grid-template-columns: 1fr;
@@ -1575,6 +1735,7 @@ textarea::placeholder {
 
   .flow-grid article,
   .capability-board > div,
+  .tutorial-section,
   .case-grid article,
   .asset-story,
   .enterprise-cta,
@@ -1588,6 +1749,7 @@ textarea::placeholder {
 
   .flow-grid article,
   .capability-board > div,
+  .tutorial-section,
   .asset-story,
   .enterprise-cta,
   .creator-box,
@@ -1599,6 +1761,39 @@ textarea::placeholder {
   .flow-grid article span {
     margin-bottom: 10px;
     font-size: 34px;
+  }
+
+  .tutorial-page {
+    padding-top: 34px;
+  }
+
+  .tutorial-section,
+  .tutorial-section.reverse {
+    gap: 22px;
+  }
+
+  .tutorial-section.reverse .tutorial-copy {
+    order: 0;
+  }
+
+  .tutorial-copy > span {
+    margin-bottom: 10px;
+    font-size: 34px;
+  }
+
+  .tutorial-copy ol {
+    margin: 14px 0 20px;
+    padding-left: 20px;
+    line-height: 1.75;
+  }
+
+  .tutorial-figure img {
+    border-radius: 20px;
+  }
+
+  .tutorial-note {
+    border-radius: 24px;
+    padding: 22px;
   }
 
   .asset-mini-grid,
@@ -1619,13 +1814,15 @@ textarea::placeholder {
 
   .studio-page,
   .pricing-page,
-  .assets-page {
+  .assets-page,
+  .tutorial-page {
     padding-top: 34px;
   }
 
   .studio-title,
   .pricing-hero,
-  .assets-heading {
+  .assets-heading,
+  .tutorial-hero {
     margin-bottom: 22px;
   }
 

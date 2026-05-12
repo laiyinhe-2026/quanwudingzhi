@@ -737,9 +737,24 @@ function bindMobileNav() {
   document.body.appendChild(nav);
 }
 
+function bindDesktopTutorialNav() {
+  const nav = $(".top-nav");
+  if (!nav || nav.querySelector('a[href="tutorial.html"]')) return;
+  const pricingLink = nav.querySelector('a[href="pricing.html"]');
+  const tutorialLink = document.createElement("a");
+  tutorialLink.href = "tutorial.html";
+  tutorialLink.textContent = "教程";
+  if (document.body?.dataset?.page === "tutorial") {
+    nav.querySelectorAll("a").forEach((item) => item.classList.remove("active"));
+    tutorialLink.classList.add("active");
+  }
+  nav.insertBefore(tutorialLink, pricingLink);
+}
+
 function init() {
   updatePoints();
   bindShared();
+  bindDesktopTutorialNav();
   bindHome();
   bindFloorplan();
   bindTextImage();
