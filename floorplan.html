@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>户型生图 | 智绘全屋</title>
-    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="styles.css?v=acquisition6">
   </head>
   <body data-page="floorplan">
     <div class="ambient-bg" aria-hidden="true"></div>
@@ -27,6 +27,14 @@
             <small>AI 将根据平面图理解空间结构与定制区域</small>
           </label>
           <div class="preview-grid single" id="floorplanPreview"></div>
+          <section class="prompt-skill-card">
+            <div class="skill-head">
+              <div><span>Built-in Skill</span><h3>户型提示词优化 Skill</h3></div>
+              <button type="button" class="ghost-button small" data-skill-reset="floorSkill">恢复默认</button>
+            </div>
+            <textarea id="floorSkill" data-skill-file="prompt-skills/floorplan-prompt-skill.md" rows="6" aria-label="户型提示词优化 Skill"></textarea>
+            <small>可编辑，会自动保存到当前浏览器。生成时会作为内置提示词优化规则一起提交。</small>
+          </section>
           <div class="form-grid">
             <label>风格选择<select id="floorStyle"><option>现代奶油风</option><option>极简原木风</option><option>意式轻奢</option><option>中古胡桃木</option><option value="other">其他</option></select></label>
             <label class="other-field" id="floorStyleOtherWrap">其他风格<input id="floorStyleOther" placeholder="填写其他风格"></label>
@@ -47,6 +55,6 @@
     </main>
     <div class="toast" id="toast"></div>
     <script src="config.js"></script>
-    <script src="app.js"></script>
+    <script src="app.js?v=acquisition6"></script>
   </body>
 </html>

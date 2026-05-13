@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>文本生图 | 智绘全屋</title>
-    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="styles.css?v=acquisition6">
   </head>
   <body data-page="text-image">
     <div class="ambient-bg" aria-hidden="true"></div>
@@ -22,6 +22,17 @@
       <section class="prompt-layout">
         <form class="creator-box prompt-box" id="textImageForm">
           <label class="prompt-input-label">需求提示词<textarea id="textPrompt" rows="8" required placeholder="描述空间、风格、柜体、材质、灯光和镜头感">现代奶油风主卧，全屋定制衣柜到顶，隐藏灯带，梳妆台与床头柜一体化，真实室内摄影，柔和自然光</textarea></label>
+          <section class="prompt-skill-card prompt-optimizer">
+            <div class="skill-head">
+              <div><span>AI Prompt Optimizer</span><h3>AI 优化提示词</h3></div>
+              <button type="button" class="gradient-button small" id="optimizeTextPrompt">优化当前提示词</button>
+            </div>
+            <textarea id="textSkill" data-skill-file="prompt-skills/text-image-prompt-skill.md" rows="6" aria-label="文本生图提示词优化 Skill"></textarea>
+            <div class="skill-actions">
+              <small>可编辑 Skill 规则。点击优化后，会把客户原始需求改写成更适合生图的空间描述。</small>
+              <button type="button" class="ghost-button small" data-skill-reset="textSkill">恢复默认</button>
+            </div>
+          </section>
           <div class="prompt-pills prompt-shortcuts">
             <button type="button">奶油风主卧，到顶衣柜，隐藏灯带</button>
             <button type="button">原木风客餐厅，通顶收纳柜，柔和自然光</button>
@@ -48,6 +59,6 @@
     </main>
     <div class="toast" id="toast"></div>
     <script src="config.js"></script>
-    <script src="app.js"></script>
+    <script src="app.js?v=acquisition6"></script>
   </body>
 </html>

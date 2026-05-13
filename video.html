@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>视频剪辑 | 智绘全屋</title>
-    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="styles.css?v=acquisition6">
   </head>
   <body data-page="video">
     <div class="ambient-bg" aria-hidden="true"></div>
@@ -30,6 +30,14 @@
             <label>背景音乐<input id="musicUpload" type="file" accept="audio/*"></label>
           </div>
           <label>视频字幕<textarea id="subtitleText" rows="4" placeholder="例：全屋定制方案 · 空间更整洁，生活更从容"></textarea></label>
+          <section class="prompt-skill-card">
+            <div class="skill-head">
+              <div><span>Video Skill</span><h3>视频提示词优化 Skill</h3></div>
+              <button type="button" class="ghost-button small" data-skill-reset="videoSkill">恢复默认</button>
+            </div>
+            <textarea id="videoSkill" data-skill-file="prompt-skills/video-prompt-skill.md" rows="6" aria-label="视频剪辑提示词优化 Skill"></textarea>
+            <small>可编辑，会自动保存到当前浏览器。生成视频时会用于组织字幕、镜头节奏和展示重点。</small>
+          </section>
           <button class="white-button wide generate-button" type="submit">生成视频</button>
         </form>
         <section class="result-box preview-panel video-stage">
@@ -43,6 +51,6 @@
     </main>
     <div class="toast" id="toast"></div>
     <script src="config.js"></script>
-    <script src="app.js"></script>
+    <script src="app.js?v=acquisition6"></script>
   </body>
 </html>

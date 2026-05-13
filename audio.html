@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>配音创作 | 智绘全屋</title>
+    <link rel="stylesheet" href="styles.css?v=acquisition6">
+  </head>
+  <body data-page="audio">
+    <div class="ambient-bg" aria-hidden="true"></div>
+    <header class="app-header">
+      <a class="logo-link" href="index.html"><img src="image.png" alt="智绘全屋"></a>
+      <nav class="top-nav" aria-label="主导航"></nav>
+      <div class="header-actions">
+        <a class="points-chip" href="pricing.html">✦ <span data-points>1000</span></a>
+        <a class="white-button small" href="pricing.html">开通会员</a>
+        <div class="profile-menu">
+          <button class="avatar-button" type="button" aria-label="个人账户">智</button>
+          <div class="profile-popover"></div>
+        </div>
+      </div>
+    </header>
+    <main class="studio-page audio-page">
+      <div class="page-heading studio-title">
+        <p class="eyebrow">Audio Studio</p>
+        <h1>AI 配音与音乐创作</h1>
+        <p>输入家装获客文案，生成配音、背景音乐或品牌声音素材。</p>
+      </div>
+      <section class="studio-layout">
+        <form class="creator-box parameter-panel" id="audioForm">
+          <label>创作文案<textarea id="audioPrompt" rows="8" placeholder="例如：为全屋定制门店活动生成一段自然中文口播"></textarea></label>
+          <div class="form-grid">
+            <label>声音类型<select id="audioVoice"><option>自然女声</option><option>稳重男声</option><option>品牌旁白</option><option>温柔讲解</option></select></label>
+            <label>内容用途<select id="audioUse"><option>短视频口播</option><option>门店活动</option><option>案例讲解</option><option>品牌宣传</option></select></label>
+          </div>
+          <button class="white-button wide generate-button" type="button" onclick="window.toast ? toast('配音能力正在接入，已保留当前模式 Skill') : alert('配音能力正在接入')">生成音频</button>
+        </form>
+        <section class="result-box preview-panel">
+          <div class="result-head"><div><h2>音频预览</h2><p>生成后的配音、音乐和声音素材会在这里展示。</p></div></div>
+          <div class="empty-preview"><span></span><strong>等待创作文案</strong><p>当前配音模式已带有后台 Skill 文件，可由开发者继续调整。</p></div>
+        </section>
+      </section>
+    </main>
+    <div class="toast" id="toast"></div>
+    <script src="config.js"></script>
+    <script src="app.js?v=acquisition6"></script>
+  </body>
+</html>
