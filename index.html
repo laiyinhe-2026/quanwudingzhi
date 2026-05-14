@@ -4,12 +4,12 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>智绘全屋 | 家装获客内容创作平台</title>
-    <link rel="stylesheet" href="styles.css?v=acquisition6">
+    <link rel="stylesheet" href="styles.css?v=sidebar-integrated-1">
   </head>
   <body data-page="home">
     <div class="ambient-bg" aria-hidden="true"></div>
     <header class="app-header">
-      <a class="logo-link" href="index.html"><img src="image.png" alt="智绘全屋"></a>
+      <a class="logo-link" href="index.html"><img src="image.png?v=sidebar-integrated-1" alt="智绘全屋"></a>
       <nav class="top-nav" aria-label="主导航"></nav>
       <div class="header-actions">
         <a class="points-chip" href="pricing.html">✦ <span data-points>1000</span></a>
@@ -45,7 +45,7 @@
                 <strong id="selectedModeName">文本生成图</strong>
               </button>
             </div>
-            <button class="gradient-button composer-submit" id="quickStart" type="button" aria-label="开始生成">↑</button>
+            <button class="gradient-button composer-submit" id="quickStart" type="button" aria-label="开始生成"><span>开始生成</span><b>↑</b></button>
           </div>
           <input class="hidden-upload" id="homeImageUpload" type="file" accept="image/*">
           <input class="hidden-upload" id="homeVideoUpload" type="file" accept="video/*">
@@ -101,6 +101,16 @@
             <strong>人物口播视频</strong>
             <small>脚本画面一键组合</small>
           </button>
+          <button type="button" data-mode-id="floorplan-analysis">
+            <span class="hot-thumb art-entry"></span>
+            <strong>户型分析图</strong>
+            <small>动线采光快速诊断</small>
+          </button>
+          <button type="button" data-mode-id="ai-voiceover">
+            <span class="hot-thumb art-audio"></span>
+            <strong>AI配音</strong>
+            <small>文案生成自然口播</small>
+          </button>
         </div>
       </section>
 
@@ -150,6 +160,6 @@
 
     <div class="toast" id="toast"></div>
     <script src="config.js"></script>
-    <script src="app.js?v=acquisition6"></script>
+    <script src="app.js?v=goldflow1"></script>
   </body>
 </html>

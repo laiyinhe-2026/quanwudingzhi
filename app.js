@@ -805,8 +805,8 @@ function renderAccountPanel() {
         <p class="has-note"><span>\u6bcf\u5468\u79ef\u5206<small>\u6bcf\u5468\u4e00 00:00 \u5237\u65b0</small></span><b>200</b></p>
         <p><span>\u5956\u52b1\u79ef\u5206</span><b>0</b></p>
       </div>
-      <a class="account-row" href="profile.html"><span>\u8fdb\u5165\u4e2a\u4eba\u4e2d\u5fc3</span><b>\u2192</b></a>
-      <a class="account-row" href="pricing.html"><span>\u5f00\u901a\u4f1a\u5458</span><b>\u2192</b></a>
+      <a class="account-row" href="profile.html"><span>\u8fdb\u5165\u4e2a\u4eba\u4e2d\u5fc3</span></a>
+      <a class="account-row" href="pricing.html"><span>\u5f00\u901a\u4f1a\u5458</span></a>
     `;
   });
 }
